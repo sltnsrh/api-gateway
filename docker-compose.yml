@@ -8,12 +8,21 @@ services:
     build: ./
     environment:
       - spring.application.name=api-gateway
-      - eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
       - logging.level.root=INFO
       - logging.level.org.springframework.cloud.gateway.route.RouteDefinitionLocator=INFO
       - logging.level.org.springframework.cloud.gateway=TRACE
       - spring.cloud.gateway.discovery.locator.enabled=true
       - spring.cloud.gateway.discovery.locator.lower-case-service-id=true
       - spring.cloud.gateway.routes[0].id=user-service
-      - spring.cloud.gateway.routes[0].uri=http://localhost:8085
-      - spring.cloud.gateway.routes[0].predicates[0]=Path=/**
+      - spring.cloud.gateway.routes[0].uri=http://userServiceApp:8080
+      - spring.cloud.gateway.routes[0].predicates[0]=Path=/registration, /login, /confirm-email, /resend-confirmation-email, /refresh-token, /validate-auth-token, /users/**
+      - spring.cloud.gateway.routes[1].id=backoffice-service
+      - spring.cloud.gateway.routes[1].uri=http://backofficeServiceApp:8080
+      - spring.cloud.gateway.routes[1].predicates[0]=Path=/manager/**, /user/**
+      - spring.cloud.gateway.routes[2].id=car-service
+      - spring.cloud.gateway.routes[2].uri=http://carServiceApp:8080
+      - spring.cloud.gateway.routes[2].predicates[0]=Path=/cars/**
+      - spring.cloud.gateway.routes[3].id=trip-service
+      - spring.cloud.gateway.routes[3].uri=http://tripServiceApp:8080
+      - spring.cloud.gateway.routes[3].predicates[0]=Path=/trip/**
