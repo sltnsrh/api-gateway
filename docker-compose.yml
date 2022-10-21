@@ -16,7 +16,7 @@ services:
       - spring.cloud.gateway.discovery.locator.lower-case-service-id=true
       - spring.cloud.gateway.routes[0].id=user-service
       - spring.cloud.gateway.routes[0].uri=lb://user-service
-      - spring.cloud.gateway.routes[0].predicates[0]=Path=/registration, /login, /confirm-email, /resend-confirmation-email, /refresh-token, /validate-auth-token, /users/**
+      - spring.cloud.gateway.routes[0].predicates[0]=Path=/registration, /login, /confirm-email, /resend-confirmation-email, /refresh-token, /validate-auth-token, /users/**, /user-logout
       - spring.cloud.gateway.routes[1].id=backoffice-service
       - spring.cloud.gateway.routes[1].uri=lb://backoffice-service
       - spring.cloud.gateway.routes[1].predicates[0]=Path=/manager/**, /user/**
@@ -26,3 +26,8 @@ services:
       - spring.cloud.gateway.routes[3].id=trip-service
       - spring.cloud.gateway.routes[3].uri=lb://trip-service
       - spring.cloud.gateway.routes[3].predicates[0]=Path=/trip/**
+
+networks:
+  default:
+    name: carsharing
+    external: true
